@@ -38,7 +38,7 @@ function buildLabels(layout) {
     const slotName = block.slots[k % 2];
     const el = document.createElement('div');
     const left = k % 2 === 0;
-    el.className = 'mlabel' + (k < 2 ? ' ego' : '') + (slot ? '' : ' locked');
+    el.className = 'mlabel' + (k < 2 ? ' ego' : '') + (slot ? '' : ' is-locked');
     const blk = left ? `<span class="blk">${block.name}</span>` : '';
     const code = slot ? `<b>${slot.code}</b>` : '<b>—</b>';
     el.innerHTML = left ? `${blk}<span>${SLOT_LABELS[slotName]}</span>${code}` : `${code}<span>${SLOT_LABELS[slotName]}</span>`;
