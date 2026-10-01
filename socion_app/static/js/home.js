@@ -8,12 +8,23 @@ import { ELEMENTS, WHEEL_ORDER, TYPES, DUALS, SLOT_MEANING, glyph, glyphSVG, esc
 
 const gsap = window.gsap;
 const ScrollTrigger = window.ScrollTrigger;
-gsap.registerPlugin(ScrollTrigger);
-ScrollTrigger.config({ ignoreMobileResize: true });
+// GSAP drives the scroll choreography, but the page must still work (static,
+// explorable) if it fails to load.
+const hasGsap = !!(gsap && ScrollTrigger);
+if (hasGsap) {
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize: true });
+}
+const $$ = sel => Array.from(document.querySelectorAll(sel));
+function onView(el, cb, { once = true, margin = '0px 0px -25% 0px' } = {}) {
+  const target = typeof el === 'string' ? document.querySelector(el) : el;
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { cb(); if (once) io.disconnect(); } }), { rootMargin: margin });
+  io.observe(target);
+}
 
 const $ = id => document.getElementById(id);
 const isMobile = () => window.matchMedia('(max-width: 899px)').matches;
-const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches || !hasGsap;
 const finePointer = window.matchMedia('(pointer: fine)').matches;
 
 const stage = $('stage');
@@ -51,8 +62,8 @@ if (finePointer) {
 }
 
 // ---------------------------------------------------------------- 01 the pattern
-const frags = gsap.utils.toArray('#pgrid .frag span');
-const late = gsap.utils.toArray('#pgrid [data-late]');
+const frags = $$('#pgrid .frag span');
+const late = $$('#pgrid [data-late]');
 const spines = [$('spineA'), $('spineB')];
 function placeSpines() {
   const grid = $('pgrid');
@@ -89,13 +100,12 @@ if (!reduce) {
     .fromTo(spines, { scaleY: 0 }, { scaleY: 1, duration: 0.35, ease: 'power2.out' }, 1.25)
     .to({}, { duration: 0.35 });
 } else {
-  gsap.set(['#cap1', '#cap2'], { opacity: 0 });
-  gsap.set('#cap3', { opacity: 1 });
-  gsap.set(spines, { scaleY: 1 });
+  $('cap1').style.opacity = 0; $('cap2').style.opacity = 0; $('cap3').style.opacity = 1;
+  spines.forEach(s => { s.style.transform = 'none'; });
 }
 
 // ---------------------------------------------------------------- 02 hidden structure
-const beats = gsap.utils.toArray('.beat');
+const beats = $$('.beat');
 function paintStructure(p) {
   const n = Math.min(8, 3 + p * 5.6);
   structure.setProgress(n);
@@ -111,15 +121,19 @@ if (!reduce) {
     onLeave: () => paintStructure(1),
   });
 } else {
-  ScrollTrigger.create({ trigger: '#hidden', start: 'top 60%', onEnter: () => paintStructure(1) });
+  onView('#hidden', () => paintStructure(1));
 }
 
 // ---------------------------------------------------------------- scene switching
 document.querySelectorAll('[data-scene]').forEach(sec => {
-  ScrollTrigger.create({
-    trigger: sec, start: 'top 55%', end: 'bottom 45%',
-    onToggle: self => { if (self.isActive) setScene(sec.dataset.scene); },
-  });
+  if (hasGsap) {
+    ScrollTrigger.create({
+      trigger: sec, start: 'top 55%', end: 'bottom 45%',
+      onToggle: self => { if (self.isActive) setScene(sec.dataset.scene); },
+    });
+  } else {
+    onView(sec, () => setScene(sec.dataset.scene), { once: false, margin: '-45% 0px -45% 0px' });
+  }
 });
 
 // ---------------------------------------------------------------- 03 eight channels
