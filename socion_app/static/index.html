@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Socion</title>
+<meta name="description" content="Why do people keep repeating the same patterns? Discover the structure underneath personality, and find your place in it.">
+<link rel="preload" href="/static/vendor/fonts/big-shoulders-display-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/static/vendor/fonts/big-shoulders-display-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/static/vendor/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/static/css/socion.css">
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+<style>
+  .pattern{overflow:hidden;}
+  .stage{transition:opacity .9s var(--ease);}
+  .veil{position:fixed; inset:0; z-index:50; background:var(--void); opacity:0; pointer-events:none; transition:opacity .6s var(--ease);}
+  .veil.on{opacity:1;}
+  .topbar .btn{padding:10px 16px; font-size:.7rem; background:rgba(13,13,15,.6); backdrop-filter:blur(6px);}
+
+  section{position:relative; z-index:2;}
+  .wrap{max-width:1240px; margin-inline:auto; padding-inline:var(--gutter);}
+
+  /* ---------- hero ---------- */
+  .hero{min-height:100svh; display:flex; align-items:flex-end; padding-block:120px 10svh;}
+  .hero-copy{display:grid; gap:30px; width:100%;}
+  /* sized from the longest line (8.05em) so each line always fits on one row */
+  .hero-q{font-size:min(calc(64vw / 8.3), 8.6rem); line-height:.86; font-weight:900;}
+  .hero-q .line{display:block; overflow:hidden; padding-bottom:.04em; white-space:nowrap;}
+  .hero-q .line > span{display:inline-block; animation:rise 1.15s cubic-bezier(.16,1,.3,1) both;}
+  .hero-q .line:nth-child(1) > span{animation-delay:.15s;}
+  .hero-q .line:nth-child(2) > span{animation-delay:.25s;}
+  .hero-q .line:nth-child(3) > span{animation-delay:.35s;}
+  #hero-a{animation:fadeup .9s cubic-bezier(.16,1,.3,1) 1.35s both;}
+  #hero-foot{animation:fadeup .8s cubic-bezier(.16,1,.3,1) 1.7s both;}
+  @keyframes rise{from{transform:translateY(105%);} to{transform:none;}}
+  @keyframes fadeup{from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:none;}}
+  .hero-a{font-family:var(--f-display); font-weight:700; text-transform:uppercase; font-size:clamp(1.5rem,3.2vw,2.5rem); line-height:1.02; color:var(--ink-dim); max-width:22ch;}
+  .hero-a em{font-style:normal; color:var(--ink);}
+  .hero-a em::after{content:""; display:inline-block; width:.42em; height:.42em; margin-left:.2em; background:var(--signal); transform:translateY(-.06em) rotate(45deg);}
+  .hero-foot{display:flex; align-items:center; gap:28px; flex-wrap:wrap;}
+  .cue{font-family:var(--f-mono); font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-faint); display:flex; align-items:center; gap:12px;}
+  .cue::before{content:""; width:1px; height:34px; background:linear-gradient(var(--ink-faint),transparent);}
+  @media (max-width:899px){ .hero{padding-top:56svh;} .hero-q{font-size:calc((100vw - 2 * var(--gutter)) / 8.3);} }
+
+  /* ---------- section heads ---------- */
+  .kicker{display:flex; gap:14px; align-items:baseline;}
+  .kicker .n{font-family:var(--f-mono); font-size:.72rem; letter-spacing:.16em; color:var(--signal);}
+  .h2{font-size:clamp(2.4rem,6.4vw,5.6rem); line-height:.88;}
+  .sub{font-size:1.06rem; color:var(--ink-dim); max-width:50ch;}
+
+  /* ---------- 01 the pattern ---------- */
+  .pattern{min-height:100svh;}
+  .pattern-stage{min-height:100svh; display:grid; align-content:center; gap:44px; padding-block:110px 60px;}
+  .pattern-head{display:grid; gap:16px; position:relative; min-height:8.5rem;}
+  .captions{position:relative; min-height:2.2em;}
+  .caption{position:absolute; inset:0 auto auto 0; font-family:var(--f-display); font-weight:800; text-transform:uppercase; font-size:clamp(1.9rem,4.6vw,3.6rem); line-height:.95;}
+  .caption + .caption{opacity:0;}
+  .pgrid{display:grid; grid-template-columns:150px minmax(0,1fr) minmax(0,1fr); column-gap:clamp(16px,3vw,48px); row-gap:0; position:relative;}
+  .pcol-head{font-family:var(--f-mono); font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--signal); padding-bottom:14px; display:flex; align-items:center; gap:10px;}
+  .pcol-head i{width:10px; height:10px; border-radius:50%; background:var(--well); box-shadow:var(--sh-inset), 0 0 0 1px rgba(226,101,47,.6);}
+  .pcol-head.b i{background:linear-gradient(180deg,var(--copper-hi),var(--copper-lo)); box-shadow:var(--glow);}
+  .prow-label{font-family:var(--f-mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-faint); padding:18px 0; border-top:1px solid var(--line);}
+  .frag{padding:16px 0; border-top:1px solid var(--line); font-size:clamp(1rem,1.6vw,1.22rem); line-height:1.35; color:var(--ink); position:relative;}
+  .frag span{display:inline-block; will-change:transform;}
+  .spine{position:absolute; top:44px; bottom:0; width:1px; background:var(--signal); transform-origin:top; transform:scaleY(0);}
+  @media (max-width:760px){
+    .pgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
+    .prow-label{grid-column:1 / -1; padding:14px 0 2px; border-top:1px solid var(--line);}
+    .frag{border-top:none; padding:6px 0 14px; font-size:.95rem;}
+    .pcol-head.blank{display:none;}
+    .spine{display:none;}
+  }
+
+  /* ---------- 02 hidden structure ---------- */
+  .hidden{min-height:100svh;}
+  .hidden-stage{min-height:100svh; display:flex; align-items:center; padding-block:110px;}
+  .hidden-copy{display:grid; gap:26px; max-width:520px;}
+  .beats{display:grid; gap:18px;}
+  .beat{font-family:var(--f-display); font-weight:800; text-transform:uppercase; font-size:clamp(1.8rem,3.8vw,3rem); line-height:.95; color:var(--ink-faint); transition:color .5s var(--ease);}
+  .beat.on{color:var(--ink);}
+  .connected{font-family:var(--f-mono); font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-dim); font-variant-numeric:tabular-nums;}
+  .connected b{color:var(--signal); font-weight:500;}
+  @media (max-width:899px){ .hidden-stage{align-items:flex-end; padding-bottom:12svh;} }
+
+  /* ---------- 03 eight channels ---------- */
+  .channels{padding-block:16svh 10svh;}
+  .channels-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(32px,6vw,90px); align-items:center; margin-top:56px;}
+  @media (max-width:899px){ .channels-grid{grid-template-columns:1fr;} }
+  .wheel{position:relative; width:100%; max-width:520px; aspect-ratio:1; margin-inline:auto;}
+  .wheel svg.lines{position:absolute; inset:0; width:100%; height:100%; overflow:visible;}
+  .wheel .axis{stroke:var(--line-strong); stroke-width:1;}
+  .wheel .ring{fill:none; stroke:var(--line); stroke-width:1;}
+  .wheel .ray{stroke:var(--signal); stroke-width:1.5; opacity:0; transition:opacity .35s var(--ease);}
+  .wheel .ray.on{opacity:1;}
+  .wheel .pairline{stroke:var(--ink-dim); stroke-width:1; stroke-dasharray:3 4; opacity:0; transition:opacity .35s var(--ease);}
+  .wheel .pairline.on{opacity:.9;}
+  .axis-label{position:absolute; font-family:var(--f-mono); font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-faint); transform:translate(-50%,-50%);}
+  .wnode{position:absolute; transform:translate(-50%,-50%); width:clamp(56px,12.5%,76px); aspect-ratio:1; display:grid; place-items:center; gap:2px; background:linear-gradient(180deg,var(--surface-hi),var(--surface)); border:1px solid rgba(255,255,255,.05); border-radius:var(--r-md); box-shadow:var(--sh-raised); cursor:pointer; padding:0; transition:border-color .3s var(--ease), transform .4s var(--ease), box-shadow .3s var(--ease), background .3s var(--ease);}
+  .wnode .glyph{font-size:clamp(20px,4vw,26px); transition:color .3s var(--ease);}
+  .wnode .c{font-family:var(--f-mono); font-size:.66rem; letter-spacing:.06em; color:var(--ink-dim);}
+  .wnode:hover{border-color:rgba(255,255,255,.14);}
+  .wnode.sel{box-shadow:var(--sh-press); background:var(--well); border-color:rgba(226,101,47,.55); transform:translate(-50%,-50%) scale(1.1);}
+  .wnode.sel .glyph{color:var(--signal); filter:drop-shadow(0 0 6px rgba(226,101,47,.6));}
+  .wnode.partner{border-color:rgba(255,255,255,.2);}
+  .wcenter{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); text-align:center; font-family:var(--f-mono); font-size:.66rem; letter-spacing:.14em; color:var(--signal); text-transform:uppercase; pointer-events:none; background:var(--well); padding:6px 12px; border-radius:var(--r-pill); box-shadow:var(--sh-inset);}
+  .panel{display:grid; gap:20px; min-height:440px; align-content:start; padding:clamp(22px,3vw,36px); background:linear-gradient(180deg,var(--surface-hi),var(--surface)); border:1px solid rgba(255,255,255,.045); border-radius:var(--r-lg); box-shadow:var(--sh-raised);}
+  .panel .ph{display:flex; align-items:center; gap:22px;}
+  .panel .ph .glyph{font-size:76px;}
+  .panel h3{font-size:clamp(2.6rem,5vw,4rem);}
+  .panel .nm{font-size:1.02rem; color:var(--ink-dim);}
+  .panel .plainchip{display:inline-block; font-family:var(--f-mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--signal); background:var(--well); box-shadow:var(--sh-inset); border-radius:var(--r-pill); padding:5px 12px; margin-top:8px;}
+  .panel dl{margin:0; display:grid; gap:18px;}
+  .panel dt{font-family:var(--f-mono); font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:6px;}
+  .panel dd{margin:0; font-size:1.02rem; color:var(--ink);}
+  .panel dd.dim{color:var(--ink-dim); font-size:.95rem;}
+  .panel .swap{animation:swap .45s var(--ease);}
+  @keyframes swap{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
+  .hint{font-family:var(--f-mono); font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint);}
+
+  /* ---------- 04 sixteen ---------- */
+  .types{padding-block:14svh 10svh;}
+  .types-grid{display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr); gap:clamp(32px,5vw,80px); margin-top:56px; align-items:start;}
+  @media (max-width:899px){ .types-grid{grid-template-columns:1fr;} }
+  .constellation{position:relative;}
+  .constellation svg.duals{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible;}
+  .constellation svg.duals line{stroke:var(--signal); stroke-width:1.2; stroke-dasharray:4 5; opacity:0; transition:opacity .3s var(--ease);}
+  .constellation svg.duals line.on{opacity:1;}
+  .qrow{display:grid; grid-template-columns:70px repeat(4,minmax(0,1fr)); gap:10px; align-items:center; margin-bottom:10px;}
+  .qname{font-family:var(--f-mono); font-size:.64rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-faint);}
+  .tnode{position:relative; aspect-ratio:1; border:1px solid rgba(255,255,255,.05); border-radius:var(--r-md); background:linear-gradient(180deg,var(--surface-hi),var(--surface)); box-shadow:var(--sh-raised); cursor:pointer; display:grid; place-items:center; align-content:center; gap:8px; padding:6px; transition:border-color .3s var(--ease), background .3s var(--ease);}
+  .tnode .gl{display:flex; gap:6px;}
+  .tnode .glyph{font-size:clamp(14px,2.2vw,20px); will-change:transform;}
+  .tnode .code{font-family:var(--f-mono); font-size:.76rem; letter-spacing:.06em;}
+  .tnode .nm{position:absolute; left:6px; right:6px; bottom:6px; font-size:.58rem; line-height:1.15; color:var(--ink-dim); text-align:center; opacity:0; transition:opacity .25s var(--ease);}
+  .tnode:hover, .tnode.hov{border-color:rgba(255,255,255,.16);}
+  .tnode:hover .nm, .tnode.hov .nm{opacity:1;}
+  .tnode.sel{box-shadow:var(--sh-press); background:var(--well); border-color:rgba(226,101,47,.55);}
+  .tnode.sel .glyph{color:var(--signal);}
+  .tnode.dual{border-color:var(--signal); border-style:dashed; box-shadow:var(--sh-raised), 0 0 16px rgba(226,101,47,.18);}
+  @media (max-width:560px){ .qrow{grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px;} .qname{grid-column:1/-1; margin-top:6px;} .tnode .nm{display:none;} .tnode .code{font-size:.68rem;} }
+  .tpanel{display:grid; gap:20px; position:sticky; top:96px; padding:clamp(22px,3vw,36px); background:linear-gradient(180deg,var(--surface-hi),var(--surface)); border:1px solid rgba(255,255,255,.045); border-radius:var(--r-lg); box-shadow:var(--sh-raised);}
+  .tpanel .code{font-family:var(--f-display); font-weight:900; font-size:clamp(4rem,8vw,6.4rem); line-height:.85;}
+  .tpanel .nm{font-size:1.1rem;}
+  .tpanel .meta{font-family:var(--f-mono); font-size:.72rem; letter-spacing:.1em; color:var(--ink-dim); text-transform:uppercase;}
+  .tpanel .leads{display:grid; gap:14px;}
+  .tpanel .lead{display:grid; grid-template-columns:44px 1fr; gap:14px; align-items:start;}
+  .tpanel .lead .glyph{font-size:34px;}
+  .tpanel .lead p{color:var(--ink-dim); font-size:.95rem;}
+  .tpanel .lead b{color:var(--ink); font-weight:500; display:block; font-family:var(--f-mono); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:4px;}
+  .tpanel .dualbtn{background:none; border:none; padding:0; cursor:pointer; color:var(--signal); font-family:var(--f-mono); font-size:.8rem; letter-spacing:.08em; text-decoration:underline; text-underline-offset:4px;}
+
+  /* ---------- 05 method ---------- */
+  .method{padding-block:14svh 10svh;}
+  .versus{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:18px; margin-top:56px;}
+  @media (max-width:899px){ .versus{grid-template-columns:1fr;} }
+  .vs{background:linear-gradient(180deg,var(--surface-hi),var(--surface)); border:1px solid rgba(255,255,255,.045); border-radius:var(--r-lg); box-shadow:var(--sh-raised); padding:clamp(24px,4vw,44px); display:grid; gap:24px; align-content:start;}
+  .vs h3{font-size:clamp(2rem,4vw,3.2rem);}
+  .vs.them h3{color:var(--ink-dim);}
+  .likert{display:grid; gap:18px; padding:22px; background:var(--well); border-radius:var(--r-md); box-shadow:var(--sh-inset);}
+  .likert .stmt{font-size:1.05rem; color:var(--ink-dim);}
+  .likert .opts{display:flex; justify-content:space-between; gap:6px;}
+  .likert .opt{display:grid; justify-items:center; gap:8px; font-size:.62rem; color:var(--ink-faint); text-align:center; width:20%;}
+  .likert .opt i{width:22px; height:22px; border-radius:50%; background:linear-gradient(180deg,#26262b,#17171a); box-shadow:inset 0 1px 0 rgba(255,255,255,.06), 2px 3px 6px rgba(0,0,0,.6); transition:background .3s var(--ease), box-shadow .3s var(--ease);}
+  .likert .opt.pick i{background:radial-gradient(circle at 40% 35%, #8f8e85, #55554f); box-shadow:var(--sh-press);}
+  .sample{padding:24px; background:var(--well); border-radius:var(--r-md); box-shadow:var(--sh-inset); display:grid; gap:18px;}
+  .sample .txt{font-size:1.12rem; line-height:1.65;}
+  .hl{background:linear-gradient(var(--signal-glow),var(--signal-glow)) no-repeat 0 100% / 0% 100%; transition:background-size .9s var(--ease); padding:0 2px;}
+  .hl.b{background-image:linear-gradient(rgba(236,235,228,.1),rgba(236,235,228,.1));}
+  .sample.lit .hl{background-size:100% 100%;}
+  .annots{display:grid; gap:12px;}
+  .annot{display:grid; grid-template-columns:auto 1fr; gap:14px; align-items:center; font-size:.9rem; color:var(--ink-dim); opacity:1; transform:none; transition:opacity .6s var(--ease), transform .6s var(--ease);}
+  .sample.armed .annot{opacity:0; transform:translateY(8px);}
+  .sample.armed.lit .annot{opacity:1; transform:none;}
+  .sample.armed.lit .annot + .annot{transition-delay:.35s;}
+  .annot .glyph{font-size:26px;}
+  .annot b{color:var(--ink); font-weight:500;}
+  .annot .arrow{color:var(--signal); font-family:var(--f-mono);}
+  .steps3{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; margin-top:18px;}
+  @media (max-width:760px){ .steps3{grid-template-columns:1fr;} }
+  .step3{background:linear-gradient(180deg,var(--surface-hi),var(--surface)); border:1px solid rgba(255,255,255,.045); border-radius:var(--r-lg); box-shadow:var(--sh-raised); padding:26px clamp(20px,3vw,32px); display:grid; gap:8px;}
+  .step3 .n{display:inline-grid; place-items:center; width:30px; height:30px; border-radius:50%; background:linear-gradient(180deg,var(--copper-hi),var(--copper-lo)); color:#fff; box-shadow:var(--ring), var(--glow); letter-spacing:0;}
+  .step3 .n{font-family:var(--f-mono); font-size:.7rem;}
+  .step3 h4{margin:0; font-family:var(--f-display); font-weight:800; font-size:1.5rem; text-transform:uppercase;}
+  .step3 p{color:var(--ink-dim); font-size:.93rem;}
+
+  /* ---------- 06 cta ---------- */
+  .cta{min-height:100svh; display:grid; align-content:end; padding-block:20svh 8svh;}
+  .cta-copy{display:grid; gap:28px; justify-items:start;}
+  .cta-copy h2{font-size:clamp(2.8rem,7.4vw,7rem); line-height:.86;}
+  .cta-copy{position:relative;}
+  .cta-copy::before{content:""; position:absolute; inset:-40px -60px; background:radial-gradient(closest-side, rgba(13,13,15,.85), rgba(13,13,15,0)); z-index:-1; pointer-events:none;}
+  .cta-copy h2 .dim{color:var(--ink-dim); display:block;}
+  .cta .btn.primary{padding:20px 34px; font-size:.86rem;}
+  .tiers{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; margin-top:64px;}
+  @media (max-width:760px){ .tiers{grid-template-columns:1fr;} }
+  .tier{background:linear-gradient(180deg,rgba(31,31,35,.94),rgba(24,24,27,.94)); border:1px solid rgba(255,255,255,.045); border-radius:var(--r-lg); box-shadow:var(--sh-raised); padding:24px; display:grid; gap:8px;}
+  .tier .p{font-family:var(--f-display); font-weight:900; font-size:2.4rem; line-height:1;}
+  .tier p{color:var(--ink-dim); font-size:.9rem;}
+  footer{position:relative; z-index:2; padding:36px var(--gutter) 60px; border-top:1px solid var(--line); color:var(--ink-faint); font-size:.78rem;}
+  footer .wrap{padding:0; display:grid; gap:10px;}
+</style>
+</head>
+<body>
+<div class="stage" id="stage"><canvas id="structure" aria-hidden="true"></canvas></div>
+<div class="veil" id="veil"></div>
+
+<header class="topbar">
+  <a class="wordmark" href="/">SOCI<span>O</span>N</a>
+  <a class="btn" href="/test" data-to-test>Discover your type</a>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero" data-scene="hero">
+  <div class="wrap" style="width:100%">
+    <div class="hero-copy">
+      <h1 class="hero-q" aria-label="Why do people keep repeating the same patterns?">
+        <span class="line"><span>Why do people</span></span>
+        <span class="line"><span>keep repeating</span></span>
+        <span class="line"><span>the same patterns?</span></span>
+      </h1>
+      <p class="hero-a" id="hero-a">What if personality isn't a collection of traits — <em>but a structure?</em></p>
+      <div class="hero-foot" id="hero-foot">
+        <a class="btn primary" href="/test" data-to-test>Discover your type <span class="arrow">→</span></a>
+        <span class="cue">Scroll to see it</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 01 THE PATTERN -->
+<section class="pattern" id="pattern" data-scene="pattern">
+  <div class="wrap pattern-stage" id="pattern-stage">
+    <div class="pattern-head">
+      <div class="kicker"><span class="n">01</span><span class="label">The pattern</span></div>
+      <div class="captions">
+        <div class="caption" id="cap1">Seemingly unrelated behaviors.</div>
+        <div class="caption" id="cap2">Now watch where they land.</div>
+        <div class="caption" id="cap3">Different situations. <span style="color:var(--signal)">Same side, every time.</span></div>
+      </div>
+    </div>
+    <div class="pgrid" id="pgrid">
+      <div class="pcol-head blank"></div>
+      <div class="pcol-head a" data-late><i></i>Person A</div>
+      <div class="pcol-head b" data-late><i></i>Person B</div>
+
+      <div class="prow-label" data-late>Decisions</div>
+      <div class="frag"><span>Ranks every option before committing to anything.</span></div>
+      <div class="frag"><span>Already decided. Now building the case for why.</span></div>
+
+      <div class="prow-label" data-late>Arguments</div>
+      <div class="frag"><span>Argues the principle: what should be true.</span></div>
+      <div class="frag"><span>Argues the record: what actually happened.</span></div>
+
+      <div class="prow-label" data-late>Relationships</div>
+      <div class="frag"><span>Remembers the whole timeline without trying.</span></div>
+      <div class="frag"><span>Forgets the dates. Notices the second someone's hurt.</span></div>
+
+      <div class="prow-label" data-late>Attention</div>
+      <div class="frag"><span>Can't stop noticing what happens next.</span></div>
+      <div class="frag"><span>Can't stop noticing what's true right now.</span></div>
+
+      <div class="prow-label" data-late>Planning</div>
+      <div class="frag"><span>Five steps mapped before you finish the first.</span></div>
+      <div class="frag"><span>Won't move until every variable is confirmed.</span></div>
+
+      <div class="spine" id="spineA"></div>
+      <div class="spine" id="spineB"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 THE HIDDEN STRUCTURE -->
+<section class="hidden" id="hidden" data-scene="structure">
+  <div class="wrap hidden-stage" id="hidden-stage">
+    <div class="hidden-copy">
+      <div class="kicker"><span class="n">02</span><span class="label">The hidden structure</span></div>
+      <div class="beats">
+        <div class="beat" data-beat="0">People don't just behave differently.</div>
+        <div class="beat" data-beat="1">They take in different kinds of information.</div>
+        <div class="beat" data-beat="2">And they trust some kinds far more than others.</div>
+      </div>
+      <div class="connected" id="connected"><b>00</b> / 08 kinds of information connected</div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 EIGHT CHANNELS -->
+<section class="channels" id="channels" data-scene="channels">
+  <div class="wrap">
+    <div class="kicker"><span class="n">03</span><span class="label">Eight information channels</span></div>
+    <h2 class="h2" style="margin-top:18px">Eight kinds of<br>information.</h2>
+    <p class="sub" style="margin-top:22px">Classical Socionics, developed by Aušra Augustinavičiūtė in the early 1980s, names eight channels the mind uses to take in and act on the world. Each has its own symbol: the shape is the kind of information, filled means it faces outward, outline means inward. <span class="hint" style="display:block;margin-top:14px">Select a channel to explore it</span></p>
+    <div class="channels-grid">
+      <div class="wheel" id="wheel">
+        <svg class="lines" viewBox="0 0 100 100" aria-hidden="true">
+          <circle class="ring" vector-effect="non-scaling-stroke" cx="50" cy="50" r="36"/>
+          <line class="axis" vector-effect="non-scaling-stroke" x1="50" y1="8" x2="50" y2="92"/>
+          <line class="axis" vector-effect="non-scaling-stroke" x1="8" y1="50" x2="92" y2="50"/>
+          <g id="wheel-rays"></g>
+        </svg>
+        <span class="axis-label" style="left:50%;top:3%">Intuition</span>
+        <span class="axis-label" style="left:50%;top:97%">Sensing</span>
+        <span class="axis-label" style="left:100%;top:46%;transform:translate(-100%,-50%)">Logic</span>
+        <span class="axis-label" style="left:0;top:46%;transform:translate(0,-50%)">Ethics</span>
+        <div class="wcenter" id="wcenter">8</div>
+      </div>
+      <div class="panel" id="panel" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 SIXTEEN -->
+<section class="types" id="types" data-scene="types">
+  <div class="wrap">
+    <div class="kicker"><span class="n">04</span><span class="label">You have a pattern</span></div>
+    <h2 class="h2" style="margin-top:18px">Two of the eight<br>lead. That's a type.</h2>
+    <p class="sub" style="margin-top:22px">Everyone uses all eight channels. The two you lead with, and where the other six fall, form one of sixteen configurations. Hover to see a type. Select one to open it; its dashed partner is its dual, the type that leads with exactly what it needs.</p>
+    <div class="types-grid">
+      <div class="constellation" id="constellation">
+        <svg class="duals" id="duals" aria-hidden="true"><line id="dual-line"/></svg>
+      </div>
+      <div class="tpanel" id="tpanel" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 METHOD -->
+<section class="method" id="method" data-scene="method">
+  <div class="wrap">
+    <div class="kicker"><span class="n">05</span><span class="label">The method</span></div>
+    <h2 class="h2" style="margin-top:18px">Most tests ask what<br>you think you are.</h2>
+    <div class="versus">
+      <div class="vs them">
+        <span class="label">Most personality tests</span>
+        <h3>Ask you to choose.</h3>
+        <div class="likert" id="likert">
+          <div class="stmt">"I enjoy being the center of attention."</div>
+          <div class="opts">
+            <div class="opt"><i></i>Strongly disagree</div><div class="opt"><i></i>Disagree</div><div class="opt"><i></i>Neutral</div><div class="opt"><i></i>Agree</div><div class="opt"><i></i>Strongly agree</div>
+          </div>
+        </div>
+        <p class="sub">You pick the answer that sounds most like the person you'd like to be. The test takes your word for it.</p>
+      </div>
+      <div class="vs">
+        <span class="label signal">Socion</span>
+        <h3>Asks you to describe.</h3>
+        <div class="sample armed" id="sample">
+          <span class="label">Illustration · the scoring method's own worked example</span>
+          <p class="txt">"<span class="hl">I redrew the org chart on a napkin in five minutes and it actually matches how work flows.</span> As for friends, <span class="hl b">you're supposed to check in regularly, it's just what a decent person does.</span>"</p>
+          <div class="annots">
+            <div class="annot"><span class="glyph" data-glyph="Ti"></span><span><b>Self-authorized, fluent</b> <span class="arrow">→</span> Ti, structure, sits in the Ego</span></div>
+            <div class="annot"><span class="glyph" data-glyph="Fi"></span><span><b>"Supposed to": a borrowed standard</b> <span class="arrow">→</span> Fi, bonds, sits in the Super-Ego</span></div>
+          </div>
+        </div>
+        <p class="sub">The evidence is in how you say it, not in what you say you are.</p>
+      </div>
+    </div>
+    <div class="steps3">
+      <div class="step3"><span class="n">01</span><h4>Describe</h4><p>Eight open questions about real situations. No scales, no options to pick from.</p></div>
+      <div class="step3"><span class="n">02</span><h4>Read</h4><p>The engine reads the register of each answer, natural or obligation-toned, against classical Model A.</p></div>
+      <div class="step3"><span class="n">03</span><h4>Cross-examine</h4><p>Verified readings get an adversarial second pass that attacks the first result before you see it.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 CTA -->
+<section class="cta" id="cta" data-scene="cta">
+  <div class="wrap">
+    <div class="cta-copy">
+      <h2>You've seen<br>the system.<span class="dim">Now see your<br>place in it.</span></h2>
+      <a class="btn primary" href="/test" data-to-test>Discover your type <span class="arrow">→</span></a>
+    </div>
+    <div class="tiers">
+      <div class="tier"><span class="label">Free</span><div class="p">$0</div><p>Your type, your Ego block, and the lines of your own writing it came from.</p></div>
+      <div class="tier"><span class="label">Full report</span><div class="p">$40</div><p>All four Model A blocks, communication, relationships, and where the reading is uncertain.</p></div>
+      <div class="tier"><span class="label">Verified</span><div class="p">$100</div><p>The full report, cross-examined by an adversarial second pass.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Built on classical Model A (Aušra Augustinavičiūtė, 1980–1983), not later extensions. One-time payments, no subscriptions.</span>
+    <span>The 3D structure is an abstract visualization of information processing, not a map of the brain.</span>
+  </div>
+</footer>
+
+<script src="/static/vendor/gsap.min.js"></script>
+<script src="/static/vendor/ScrollTrigger.min.js"></script>
+<script type="module" src="/static/js/home.js"></script>
+</body>
+</html>

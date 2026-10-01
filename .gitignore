@@ -7,3 +7,6 @@ __pycache__/
 .agents/
 .claude/skills/
 skills-lock.json
+
+# Socion local report store and usage log (runtime data, not source)
+socion_app/data/
