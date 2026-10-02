@@ -47,6 +47,8 @@ files unless asked.
   Read it before changing the backend.
 - `socion_app/scoring.py` (Claude calls, validation, tier filter),
   `server.py`, `store.py`, `payments.py`, `static/` (pages + `js/structure.js`).
+- `SESSION_LOG.md` — short history of past sessions. Read it only when the
+  user refers to earlier work; append a few lines at the end of a session.
 
 ## Running and testing
 - App: `cd socion_app`, set `ANTHROPIC_API_KEY`, then
@@ -65,6 +67,8 @@ files unless asked.
 3. Stripe keys + webhook (`/api/webhook/stripe`).
 4. Real database instead of `data/reports.json`; email delivery of reports.
 5. TikTok/YouTube content.
+6. Type portraits: finish the Midjourney set
+   (`marketing/midjourney-type-portraits.md`), then add them to the site.
 
 ## Working style
 - Keep answers short; one specific goal per session.
