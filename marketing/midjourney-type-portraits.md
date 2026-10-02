@@ -6,9 +6,9 @@ art stays tied to the model rather than to pop stereotypes.
 
 ## How to use
 
-- **Style:** `--sref 4278289982` is the code from your Midjourney style page
-  (the gritty sketch-comic grid). A code works the same as pasting the image
-  URL, and is shorter.
+- **Style:** `--sref` points at the style image directly
+  (https://cdn.midjourney.com/styles/0_4278289982/portrait_640_N.webp). Don't use the bare code `4278289982` with `--v 6.1`: on older
+  versions the same number maps to a different style (it produced 3D renders).
 - **`--sw 1000`** forces the style to win over "warm/cheerful" wording.
 - **Portrait reference (optional):** to copy the framing of the smoking-man
   portrait without copying his face, paste its image URL at the very start of
@@ -16,15 +16,14 @@ art stays tied to the model rather than to pop stereotypes.
   into the same man.
 - **Same character in other scenes later:** after you pick a portrait you
   like, reuse it with `--cref [that image URL] --cw 80`.
-- Keep `--v 6.1` (what your example uses); style codes can behave
-  differently on other versions.
+- Leave the version off so Midjourney uses its current default.
 - Don't add type nicknames (Napoleon, Jack London, Dostoevsky...) to prompts;
   they pull in real people's likenesses.
 - The Socion symbols can't be drawn reliably by Midjourney; add them on the
   site, not in the image.
 
 **Shared ending for every prompt** (already included below):
-`bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref 4278289982 --sw 1000 --ar 2:3 --v 6.1`
+`bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref https://cdn.midjourney.com/styles/0_4278289982/portrait_640_N.webp --sw 1000 --ar 2:3`
 
 ---
 
@@ -32,88 +31,88 @@ art stays tied to the model rather than to pop stereotypes.
 
 **ILE — Possibility + Structure**
 ```
-ILE personality type, restless inventive person, raised eyebrow and a sly mid-idea grin, messy hair, pencil behind the ear, half-built gadget and scribbled diagrams floating behind them, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref 4278289982 --sw 1000 --ar 2:3 --v 6.1
+ILE personality type, restless inventive person, raised eyebrow and a sly mid-idea grin, messy hair, pencil behind the ear, scribbled diagrams behind them, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref https://cdn.midjourney.com/styles/0_4278289982/portrait_640_N.webp --sw 1000 --ar 2:3
 ```
 
 **SEI — Comfort + Mood**
 ```
-SEI personality type, soft relaxed person, gentle easy smile, warm sleepy eyes, holding a steaming cup, cozy lamp light, unhurried and hospitable presence, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref 4278289982 --sw 1000 --ar 2:3 --v 6.1
+SEI personality type, soft relaxed person, gentle easy smile, warm sleepy eyes, holding a steaming cup, cozy lamp light, unhurried and hospitable presence, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref https://cdn.midjourney.com/styles/0_4278289982/portrait_640_N.webp --sw 1000 --ar 2:3
 ```
 
 **ESE — Mood + Comfort**
 ```
-ESE personality type, warm expressive person, bright friendly eyes, open cheerful expression, slightly styled dark hair, looks like someone who brings energy and emotion to people around them, lively and welcoming presence, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref 4278289982 --sw 1000 --ar 2:3 --v 6.1
+ESE personality type, warm expressive person, bright friendly eyes, open cheerful expression, slightly styled dark hair, looks like someone who brings energy and emotion to people around them, lively and welcoming presence, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref https://cdn.midjourney.com/styles/0_4278289982/portrait_640_N.webp --sw 1000 --ar 2:3
 ```
 
 **LII — Structure + Possibility**
 ```
-LII personality type, calm detached analyst, quiet focused gaze, neat precise appearance, thin glasses, faint chalk grid and geometric diagram behind them, still and composed, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref 4278289982 --sw 1000 --ar 2:3 --v 6.1
+LII personality type, calm detached analyst, quiet focused gaze, neat precise appearance, thin glasses, faint chalk grid and geometric diagram behind them, still and composed, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref https://cdn.midjourney.com/styles/0_4278289982/portrait_640_N.webp --sw 1000 --ar 2:3
 ```
 
 ## Beta
 
 **EIE — Mood + Time**
 ```
-EIE personality type, intense dramatic person, piercing expressive eyes, one eyebrow lifted, theatrical side lighting, storm clouds gathering behind, charged emotional atmosphere, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref 4278289982 --sw 1000 --ar 2:3 --v 6.1
+EIE personality type, intense dramatic person, piercing expressive eyes, one eyebrow lifted, theatrical side lighting, storm clouds gathering behind, charged emotional atmosphere, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref https://cdn.midjourney.com/styles/0_4278289982/portrait_640_N.webp --sw 1000 --ar 2:3
 ```
 
 **LSI — Structure + Force**
 ```
-LSI personality type, stern composed person, firm jaw, level unblinking gaze, upright posture, collar buttoned to the top, strict straight lines in the background, disciplined presence, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref 4278289982 --sw 1000 --ar 2:3 --v 6.1
+LSI personality type, stern composed person, firm jaw, level unblinking gaze, upright posture, collar buttoned to the top, strict straight lines in the background, disciplined presence, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref https://cdn.midjourney.com/styles/0_4278289982/portrait_640_N.webp --sw 1000 --ar 2:3
 ```
 
 **SLE — Force + Structure**
 ```
-SLE personality type, forceful confident person, cocky smirk, squared shoulders, leaning toward the viewer, short cropped hair, dominant commanding presence, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref 4278289982 --sw 1000 --ar 2:3 --v 6.1
+SLE personality type, forceful confident person, cocky smirk, squared shoulders, leaning toward the viewer, short cropped hair, dominant commanding presence, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref https://cdn.midjourney.com/styles/0_4278289982/portrait_640_N.webp --sw 1000 --ar 2:3
 ```
 
 **IEI — Time + Mood**
 ```
-IEI personality type, dreamy introspective person, faraway half-closed eyes, soft melancholic smile, loose hair, drifting mist at dusk, languid graceful presence, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref 4278289982 --sw 1000 --ar 2:3 --v 6.1
+IEI personality type, dreamy introspective person, faraway half-closed eyes, soft melancholic smile, loose hair, drifting mist at dusk, languid graceful presence, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref https://cdn.midjourney.com/styles/0_4278289982/portrait_640_N.webp --sw 1000 --ar 2:3
 ```
 
 ## Gamma
 
 **SEE — Force + Bonds**
 ```
-SEE personality type, charismatic bold person, magnetic grin, chin raised, confident direct stare, slicked hair, owns the room, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref 4278289982 --sw 1000 --ar 2:3 --v 6.1
+SEE personality type, charismatic bold person, magnetic grin, chin raised, confident direct stare, slicked hair, owns the room, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref https://cdn.midjourney.com/styles/0_4278289982/portrait_640_N.webp --sw 1000 --ar 2:3
 ```
 
 **ILI — Time + Efficiency**
 ```
-ILI personality type, skeptical observant person, heavy-lidded watchful eyes, slight knowing frown, chin resting on hand, distant horizon behind them, still and unimpressed, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref 4278289982 --sw 1000 --ar 2:3 --v 6.1
+ILI personality type, skeptical observant person, heavy-lidded watchful eyes, slight knowing frown, chin resting on hand, distant horizon behind them, still and unimpressed, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref https://cdn.midjourney.com/styles/0_4278289982/portrait_640_N.webp --sw 1000 --ar 2:3
 ```
 
 **LIE — Efficiency + Time**
 ```
-LIE personality type, energetic pragmatic person, sharp forward-looking eyes, faint determined smile, sleeves rolled up, wristwatch visible, mid-plan, restless drive, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref 4278289982 --sw 1000 --ar 2:3 --v 6.1
+LIE personality type, energetic pragmatic person, sharp forward-looking eyes, faint determined smile, sleeves rolled up, wristwatch visible, mid-plan, restless drive, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref https://cdn.midjourney.com/styles/0_4278289982/portrait_640_N.webp --sw 1000 --ar 2:3
 ```
 
 **ESI — Bonds + Force**
 ```
-ESI personality type, reserved loyal person, guarded but warm eyes, closed protective posture, arms crossed, firm set mouth, quietly fierce presence, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref 4278289982 --sw 1000 --ar 2:3 --v 6.1
+ESI personality type, reserved loyal person, guarded but warm eyes, closed protective posture, arms crossed, firm set mouth, quietly fierce presence, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref https://cdn.midjourney.com/styles/0_4278289982/portrait_640_N.webp --sw 1000 --ar 2:3
 ```
 
 ## Delta
 
 **LSE — Efficiency + Comfort**
 ```
-LSE personality type, competent practical person, tidy neat appearance, steady reliable gaze, polite businesslike half-smile, clipboard in hand, orderly workshop behind them, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref 4278289982 --sw 1000 --ar 2:3 --v 6.1
+LSE personality type, competent practical person, tidy neat appearance, steady reliable gaze, polite businesslike half-smile, clipboard in hand, orderly workshop behind them, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref https://cdn.midjourney.com/styles/0_4278289982/portrait_640_N.webp --sw 1000 --ar 2:3
 ```
 
 **EII — Bonds + Possibility**
 ```
-EII personality type, gentle empathetic person, kind thoughtful eyes, soft introspective expression, head slightly tilted, quiet idealism, single small light in the dark behind them, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref 4278289982 --sw 1000 --ar 2:3 --v 6.1
+EII personality type, gentle empathetic person, kind thoughtful eyes, soft introspective expression, head slightly tilted, quiet idealism, single small light in the dark behind them, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref https://cdn.midjourney.com/styles/0_4278289982/portrait_640_N.webp --sw 1000 --ar 2:3
 ```
 
 **IEE — Possibility + Bonds**
 ```
-IEE personality type, playful charming person, sparkling curious eyes, mid-conversation smile, animated hand gesture, tousled hair, open and inviting presence, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref 4278289982 --sw 1000 --ar 2:3 --v 6.1
+IEE personality type, playful charming person, sparkling curious eyes, mid-conversation smile, animated hand gesture, tousled hair, open and inviting presence, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref https://cdn.midjourney.com/styles/0_4278289982/portrait_640_N.webp --sw 1000 --ar 2:3
 ```
 
 **SLI — Comfort + Efficiency**
 ```
-SLI personality type, laid-back calm craftsman, easy half-smile, relaxed slouch, hands resting on a well-worn tool, unbothered and self-sufficient presence, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref 4278289982 --sw 1000 --ar 2:3 --v 6.1
+SLI personality type, laid-back calm craftsman, easy half-smile, relaxed slouch, hands resting on a well-worn tool, unbothered and self-sufficient presence, bust portrait, minimalist black clothing, gritty hand-drawn comic sketch, bold ink lines, desaturated slate palette --sref https://cdn.midjourney.com/styles/0_4278289982/portrait_640_N.webp --sw 1000 --ar 2:3
 ```
 
 ---
